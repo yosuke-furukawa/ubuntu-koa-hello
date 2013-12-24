@@ -9,6 +9,10 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "koa": "~0.1.2"
+    "koa": "~0.1.2",
+    "koa-route": "~1.0.2",
+    "koa-static": "~1.4.0",
+    "co-views": "~0.1.0",
+    "jade": "~1.0.0"
   }
 }
