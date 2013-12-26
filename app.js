@@ -25,4 +25,39 @@ app.use(route.get('/hello/:name', function *(name) {
 // static file serv
 app.use(serve(__dirname + '/public'));
 
+app.use(function *(next) {
+  if (this.request.url === "/_chk") {
+     console.log("OK");
+     this.response.status = 200;
+     this.response.body = "OK";
+  }
+  yield next;
+});
+
+// handle error
+app.use(function *(next) {
+  try {
+    yield next;
+  } catch (err) {
+    this.status = 500;
+    this.body = err.message;
+  }
+});
+
+// error thrower
+app.use(function *(next) {
+  if (this.request.url === "/_err") {
+    throw new Error("Send Error");
+  }
+
+  yield next;
+});
+
+
+app.on('error', function(err){
+  this.status = 500;
+  this.body = err.message;
+});
+
+
 app.listen(3000);
