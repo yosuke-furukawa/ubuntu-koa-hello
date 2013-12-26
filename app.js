@@ -41,12 +41,13 @@ app.use(function *(next) {
   } catch (err) {
     this.status = 500;
     this.body = err.message;
+    this.app.emit("error", err, this);
   }
 });
 
 // error thrower
 app.use(function *(next) {
-  if (this.request.url === "/_err") {
+  if (this.url === "/_err") {
     throw new Error("Send Error");
   }
 
@@ -55,8 +56,7 @@ app.use(function *(next) {
 
 
 app.on('error', function(err){
-  this.status = 500;
-  this.body = err.message;
+  console.error(err.stack);
 });
 
 
